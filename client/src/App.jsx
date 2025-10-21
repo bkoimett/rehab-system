@@ -1,7 +1,16 @@
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom"
+
+
 function App() {
   return (
     <>
-      Hello
+      <Router>
+        Header
+        <Routes>
+          <Route></Route>
+        </Routes>
+        Footer
+      </Router>
     </>
   )
 }
