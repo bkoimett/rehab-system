@@ -1,6 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Book() {
+  const baseUrl = "http://localhost:8000/api/books";
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(baseUrl);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data.");
+        }
+
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div>
       <h1>Books</h1>
@@ -8,7 +30,9 @@ function Book() {
         This is where we use NodeJs, Express & MongoDB to grab some data. The
         data below is pulled from a MongoDB database.
       </p>
-      
+
+      <h2>Fetch Example</h2>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
 }
