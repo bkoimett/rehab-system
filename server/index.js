@@ -17,7 +17,19 @@ app.use("/uploads", express.static("uploads"));
 // routes
 app.get('/api/books', async (req,res) => {
     try {
-        const data = await Book.find();
+
+      // grab query
+      const category = req.query.category;
+      // const stars = req.query.stars;
+      console.log(category);
+
+      const filter = {};
+      if(category) {
+        filter.category = category;
+      }
+
+
+        const data = await Book.find(filter);
         res.json(data);
     } catch (error) {
         res.status(500).json({ error: "An error occured while fetching books."});
