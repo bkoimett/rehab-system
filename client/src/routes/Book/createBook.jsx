@@ -4,6 +4,12 @@ import NoImageSelected from "../../assets/no-image-selected.jpg";
 function CreateBook() {
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
+  const [stars, setStars] = useState(0);
+  const [description, setDescription] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [thumbnail, setThumbnail] = useState(null);
+  const [submitted, setSubmitted] = useState("");
+//   const [image, setImage] = useState(NoImageSelected);
 
   const createBook = async (e) => {
     e.preventDefault();
@@ -22,11 +28,12 @@ function CreateBook() {
       if (response.ok) {
         setTitle("");
         setSlug("");
+        setSubmitted(true);
       } else {
         console.log("Failed to Submit data.");
       }
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   };
 
@@ -38,33 +45,38 @@ function CreateBook() {
         data below is pulled from a MongoDB database.
       </p>
 
-      <form className="bookdetails" onSubmit={createBook}>
-        <div className="col-1">
-          <label htmlFor="">Upload Thumbnail</label>
-          <img src={NoImageSelected} alt="preview image" />
-          <input type="file" accept="image/gif, image/jpeg, image/png" />
-        </div>
-        <div className="col-2">
-          <div>
-            <label htmlFor="">Title</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
+      {submitted ? (
+        <p>Data submitted successfully</p>
+      ) : (
+        <form className="bookdetails" onSubmit={createBook}>
+          <div className="col-1">
+            <label>Upload Thumbnail</label>
+            <img src={NoImageSelected} alt="preview image" />
+            <input type="file" accept="image/gif, image/jpeg, image/png" />
           </div>
-          <div>
-            <label htmlFor="">Slug</label>
-            <input
-              type="text"
-              value={slug}
-              onChange={(e) => setSlug(e.target.value)}
-            />
-          </div>
+          <div className="col-2">
+            <div>
+              <label>Title</label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Slug</label>
+              <input
+                type="text"
+                value={slug}
+                onChange={(e) => setSlug(e.target.value)}
+              />
+            </div>
+            
 
-          <input type="submit" />
-        </div>
-      </form>
+            <input type="submit" />
+          </div>
+        </form>
+      )}
     </div>
   );
 }
