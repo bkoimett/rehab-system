@@ -44,6 +44,10 @@ function Book() {
         data below is pulled from a MongoDB database.
       </p>
 
+      
+        <Link to="/createBook">➕ Add New Book</Link>
+     
+
       <h2>Fetch Example</h2>
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
 
