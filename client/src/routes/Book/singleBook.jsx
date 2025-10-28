@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
-function SingleBook() {
+function singleBook() {
   const [data, setData] = useState([]);
-  const urlSlug = useParams(); // destructuring is safer {slug}
+  const urlSlug = useParams();
   const baseUrl = `http://localhost:8000/api/books/${urlSlug.slug}`;
 
   useEffect(() => {
@@ -24,11 +24,47 @@ function SingleBook() {
     fetchData();
   }, []);
 
+  function StarRating({ numberOfStars} ) {
+    const stars = [];
+
+    for(let i = 0; i < numberOfStars; i++ ) {
+      stars.push(<span key={i}>⭐</span>)
+    }
+
+    return <div>Rating: {stars}</div>
+  }
+
   return (
     <div>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <Link to={"/books"}>🔙 Books</Link>
+
+      <div className="bookdetails">
+        <div className="col-1">
+          {/* // save url as variable  // optional-chaining/ ?*/}
+          <img
+            src={`http://localhost:8000/uploads/${data?.thumbnail}`}
+            alt={data?.title}
+          />
+          <button>
+            <Link to={`/editbook/${data.slug}`}>Edit</Link>
+          </button>
+        </div>
+
+        <div className="col-2">
+          <h1>{data?.title}</h1>
+          <p>{data?.description}</p>
+          <StarRating numberOfStars={data?.stars} />
+
+          <p>Category</p>
+          <ul>
+            {data?.category?.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default SingleBook;
+export default singleBook;
