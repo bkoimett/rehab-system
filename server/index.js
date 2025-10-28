@@ -106,6 +106,17 @@ app.put("/api/books", upload.single("thumbnail"), async (req, res) => {
   }
 });
 
+app.delete("/api/books/:id", async (req, res) => {
+  const bookId = req.params.id;
+
+  try {
+    await Book.deleteOne({ _id: bookId });
+    res.json("How dare you!" + req.body.bookId);
+  } catch (error) {
+    res.json(error);
+  }
+});
+
 // app.post("/api/books", async (req, res) => {
 //   try {
 //     console.log(req.body);
